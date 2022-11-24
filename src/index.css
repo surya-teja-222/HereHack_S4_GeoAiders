@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+    scroll-behavior: smooth;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    padding: none;
+    margin: none;
+}
+
+.dashed_bd {
+    @apply border-dotted border-stone-900 border-2;
+}
+
+.franchise_btn {
+    background: linear-gradient(
+        90deg,
+        #e5db87 0%,
+        rgba(192, 218, 156) 33.85%,
+        rgba(128, 218, 193) 66.15%,
+        rgba(107, 217, 204) 100%
+    );
+    border-radius: 38px;
+    transition: all 0.5s ease-in-out;
+}
+
+.franchise_btn:hover {
+    scale: 1.01;
+}

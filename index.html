@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KnowPrice.ai</title>
+  <meta name="description" content="Get to Know Price of Places directly on the Map." />
+  <!-- Analytics -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-analytics.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyB5nXZwFWMvoJNjFdY7tDrhF0_VG01W3dY",
+      authDomain: "know-price-ai.firebaseapp.com",
+      projectId: "know-price-ai",
+      storageBucket: "know-price-ai.appspot.com",
+      messagingSenderId: "304970176209",
+      appId: "1:304970176209:web:d43404d0684ff787e297f0",
+      measurementId: "G-C78WCXLTKB"
+    };
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+  <!-- Styles -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" as="style"
+    onload="this.onload=null;this.rel='stylesheet'">
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>
