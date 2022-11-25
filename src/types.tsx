@@ -24,3 +24,16 @@ export type mapProps = {
 export type searchProps = {
     type: "land" | "house";
 };
+
+type secondary = {
+    lat: number;
+    long: number;
+    price: number;
+    label: string;
+};
+
+export type resMapProps = {
+    inpLat: number;
+    inpLng: number;
+    secondary?: secondary[];
+};

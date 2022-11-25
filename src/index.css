@@ -13,7 +13,7 @@ body,
     margin: none;
 }
 
-canvas{
+canvas {
     border-radius: 44px;
 }
 
@@ -35,4 +35,14 @@ canvas{
 
 .franchise_btn:hover {
     scale: 1.1;
+}
+
+#details {
+    /* hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+#details::-webkit-scrollbar {
+    display: none;
 }

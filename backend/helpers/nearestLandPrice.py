@@ -18,8 +18,6 @@ def land_price_nearest(latitude, longitude):
         lats.append(df['lat'][i])
         lngs.append(df['lng'][i])
         price.append(df['pricePersqft'][i])
-        
-
 
     lat_u, long_u , price_u= sorted(zip(*set(zip(lats, lngs, price))))
 

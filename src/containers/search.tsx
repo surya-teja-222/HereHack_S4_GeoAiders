@@ -3,6 +3,7 @@ import DisplayMapClass from "../components/DisplayMap";
 import { HERE_API_KEY, MAP_QUEST_API } from "./../assets/env";
 import React, { useEffect } from "react";
 import { searchProps } from "../types";
+import { Link, useNavigate } from "react-router-dom";
 
 const AUTO_COMPLETE_URL = (input: string) => {
     return `https://autocomplete.geocoder.ls.hereapi.com/6.2/suggest.json?query=${input}&apiKey=${HERE_API_KEY}`;
@@ -114,6 +115,18 @@ export default function Search(props: searchProps) {
                                                 };
 
                                                 setSelected(ree);
+
+                                                // remove disabled from button
+                                                (
+                                                    document.getElementById(
+                                                        "continueBtn"
+                                                    ) as HTMLButtonElement
+                                                ).style.color = "#3971ff";
+                                                (
+                                                    document.getElementById(
+                                                        "continueBtn"
+                                                    ) as HTMLButtonElement
+                                                ).style.cursor = "pointer";
                                             }}
                                         >
                                             {suggestion}
@@ -132,7 +145,34 @@ export default function Search(props: searchProps) {
                                 </div>
                             </div>
 
-                            <div className="bg-[#8CACFF] cursor-pointer hover:bg-[#3971ff] h-[60px] w-fit py-3 px-8 mx-auto transition-all duration-700 hover:scale-[1.05] ease-in-out rounded-[33px] flex gap-3">
+                            <button
+                                onClick={() => {
+                                    if (
+                                        selected !== undefined &&
+                                        props.type === "land"
+                                    ) {
+                                        window.location.href = `/land-results?lat=${selected.lat}&lng=${selected.lng}`;
+                                    } else if (
+                                        selected !== undefined &&
+                                        props.type === "house"
+                                    ) {
+                                        // window.location.href = `/house-results?lat=${selected.lat}&lng=${selected.lng}`;
+                                        const fm = document.getElementById(
+                                            "houseForm"
+                                        ) as HTMLDivElement;
+                                        fm.style.display = "block";
+                                        // scroll to form
+                                        fm.scrollIntoView({
+                                            behavior: "smooth",
+                                        });
+                                    }
+                                    {
+                                        console.log("No Selected");
+                                    }
+                                }}
+                                id="continueBtn"
+                                className="bg-[#8CACFF]  cursor-not-allowed  hover:bg-[#3971ff] h-[60px] w-fit py-3 px-8 mx-auto transition-all duration-700 hover:scale-[1.05] ease-in-out rounded-[33px] flex gap-3"
+                            >
                                 <p className="my-auto text-white font-semibold">
                                     Next
                                 </p>
@@ -150,7 +190,7 @@ export default function Search(props: searchProps) {
                                         stroke-width="3"
                                     />
                                 </svg>
-                            </div>
+                            </button>
                         </div>
                     </div>
                     <div className="w-[3px] bg-white h-[60%] my-auto rounded-[44px] shadow-2xl"></div>
@@ -162,6 +202,112 @@ export default function Search(props: searchProps) {
                             type={props.type}
                         />
                     </div>
+                </div>
+            </div>
+            <div
+                id="houseForm"
+                className="w-full bg-[#1D232E] hidden text-white h-[50vh] "
+            >
+                {/* noOfRooms,BathRoom, Car, LandSize, BuildingArea, Latitude, Longitude, HouseAge */}
+
+                <h3 className="p-6 mt-5 text-3xl text-center select-none font-semibold">
+                    Please Provide Some Additional Preferences
+                </h3>
+
+                <div className="flex  gap-4 p-6 w-full  justify-evenly">
+                    <div className="flex flex-col gap-4   ">
+                        <input
+                            type="number"
+                            name="noOfRooms"
+                            id="noOfRooms"
+                            className="outline-none w-[25vw] bg-white p-2 text-black"
+                            placeholder="Enter Number Of Rooms "
+                        />
+                        <input
+                            type="number"
+                            name="bathRoom"
+                            id="bathRoom"
+                            className="outline-none w-[25vw] bg-white p-2 text-black"
+                            placeholder="Enter Number Of Bath Rooms "
+                        />
+                        <input
+                            type="number"
+                            name="car"
+                            id="car"
+                            className="outline-none w-[25vw] bg-white p-2 text-black"
+                            placeholder="Required Parking Space"
+                        />
+                    </div>
+                    <div className="flex flex-col gap-4">
+                        <input
+                            type="number"
+                            name="landSize"
+                            id="landSize"
+                            className="outline-none w-[25vw] bg-white p-2 text-black"
+                            placeholder="Enter Land Size"
+                        />
+                        <input
+                            type="number"
+                            name="BuildingArea"
+                            id="buildingArea"
+                            className="outline-none w-[25vw] bg-white p-2 text-black"
+                            placeholder="Enter Minimum Building Area"
+                        />
+                        <input
+                            type="number"
+                            name="HouseAge"
+                            id="houseAge"
+                            className="outline-none w-[25vw] bg-white p-2 text-black"
+                            placeholder="Enter Maximum Age of House"
+                        />
+                    </div>
+                </div>
+                <p id="errorPane" className="hidden text-center text-red-900">
+                    Fill All the Fields to Continue
+                </p>
+                <div
+                    onClick={() => {
+                        const noOfRooms = document.getElementById(
+                            "noOfRooms"
+                        ) as HTMLInputElement;
+                        const bathRoom = document.getElementById(
+                            "bathRoom"
+                        ) as HTMLInputElement;
+                        const car = document.getElementById(
+                            "car"
+                        ) as HTMLInputElement;
+                        const landSize = document.getElementById(
+                            "landSize"
+                        ) as HTMLInputElement;
+                        const buildingArea = document.getElementById(
+                            "buildingArea"
+                        ) as HTMLInputElement;
+                        const houseAge = document.getElementById(
+                            "houseAge"
+                        ) as HTMLInputElement;
+                        if (
+                            noOfRooms.value === "" ||
+                            bathRoom.value === "" ||
+                            car.value === "" ||
+                            landSize.value === "" ||
+                            buildingArea.value === "" ||
+                            houseAge.value === ""
+                        ) {
+                            const errorPane = document.getElementById(
+                                "errorPane"
+                            ) as HTMLParagraphElement;
+                            errorPane.style.display = "block";
+                        } else {
+                            if (selected) {
+                                window.location.href = `/house-results?lat=${selected.lat}&lng=${selected.lng}&noOfRooms=${noOfRooms.value}&bathRoom=${bathRoom.value}&car=${car.value}&landSize=${landSize.value}&buildingArea=${buildingArea.value}&houseAge=${houseAge.value}`;
+                            } else {
+                                console.log("No Selected");
+                            }
+                        }
+                    }}
+                    className="flex justify-center bg-blue-800 w-fit mx-auto px-4 py-2 rounded-lg shadow-2xl hover:scale-[1.1] transition-all ease-in-out duration-500 cursor-pointer"
+                >
+                    SUBMIT
                 </div>
             </div>
         </>

@@ -17,8 +17,3 @@ def reverseGeoCode(lat, long):
     return str1 + ' ' + str2
 
 
-
-# df = pd.read_csv('../static/LandIndia.csv')
-
-# for i in range(20):
-#     print(reverseGeoCode(df['lat'][i], df['lng'][i]))
