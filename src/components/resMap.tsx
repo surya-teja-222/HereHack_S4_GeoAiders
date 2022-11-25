@@ -18,7 +18,7 @@ export default function ResMap(props: resMapProps) {
             var longs = [];
 
             for (var i = 0; i < props.secondary.length; i++) {
-                longs.push(props.secondary[i].long);
+                longs.push(props.secondary[i].lng);
             }
 
             // point on map
@@ -84,7 +84,7 @@ export default function ResMap(props: resMapProps) {
 
         var lats = props.secondary?.map((item) => item.lat);
 
-        var longs = props.secondary?.map((item) => item.long);
+        var longs = props.secondary?.map((item) => item.lng);
 
         // point on map
         if (lats && longs) {

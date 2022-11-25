@@ -27,7 +27,7 @@ export type searchProps = {
 
 type secondary = {
     lat: number;
-    long: number;
+    lng: number;
     price: number;
     label: string;
 };

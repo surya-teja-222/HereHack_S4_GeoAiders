@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 from sklearn.preprocessing import RobustScaler
 import numpy as np
 import json
+import pandas as pd
 load_dotenv()
 
 
@@ -33,7 +34,6 @@ def hello_world():
 @app.route('/house-price-pred')
 def result():
     data = json.loads(request.data.decode('utf-8'))
-
     index=0
     rooms=data['rooms']
     distance=11.184929
@@ -66,7 +66,98 @@ def result():
     input= scaler.fit_transform([input])
     price=model.predict(input)
     return str(price[0])
-        
+
+
+@app.route('/house-price' , methods=['POST', 'GET'])
+def house_price():
+    data = json.loads(request.data.decode('utf-8'))
+    latitude=data['lat']
+    longitude=data['lng']
+    df = pd.read_csv('./static/Melbourne_housing_FULL.csv')
+    if(latitude == None or longitude == None):
+        try:
+            latitude = request.args.get('lat')
+            longitude = request.args.get('lng')
+        except:
+            return jsonify({"error": "latitude and longitude are required"}), 400
+
+    
+    f = open("./helpers/house_neigh.pkl", "rb")
+    neigh = pickle.load(f)
+    distances, indices = neigh.kneighbors([[latitude, longitude]])
+
+    nearLats = []
+    nearLongs = []
+    nearPrices = []
+    nearLabels = []
+    for i in indices[0]:
+        nearLats.append(df['Lattitude'][i])
+        nearLongs.append(df['Longtitude'][i])
+        nearPrices.append(df['Price'][i])
+        nearLabels.append(df['Address'][i])
+    
+    lat_u, long_u , price_u  = sorted(zip(*set(zip(nearLats, nearLongs, nearPrices))))
+    lat_u , long_u , price_u = list(lat_u)[:10], list(long_u)[:10], list(price_u)[:10]
+    label_u = []
+    for i in range(len(lat_u)):
+        label_u.append(nearLabels[nearLats.index(lat_u[i])])
+
+
+    land_price_nearest =[]
+    for i in range(len(lat_u)):
+        land_price_nearest.append({
+            "lat": lat_u[i],
+            "lng": long_u[i],
+            "price": price_u[i] if (price_u[i]) else 1000,
+            "label": label_u[i]
+        })
+
+
+
+    res = dict()
+    subRes2 = dict()
+    subRes2["house_price_nearest"] = land_price_nearest
+
+
+    index=0
+    rooms=data['noOfRooms']
+    distance=11.184929
+    bathroom=data['bathRoom']
+    car=data['car']
+    landsize=data['landSize']
+    BuildingArea=data['buildingArea']
+    house_age=data['houseAge']
+    prop_count=0
+    year=2018
+    h=1
+    t=0
+    u=0
+    rem=1
+    rem2=0
+    rem3=0
+    rem4=0
+    rem5=0
+    rem6=0
+    rem7=0
+    rem8=0
+    sf=1
+    sf2=0
+    sf3=0
+    sf4=0
+    input = [index,rooms,distance,bathroom,car,landsize,BuildingArea,latitude,longitude,prop_count,house_age,year,h,t,u,rem,rem2,rem3,rem4,rem5,rem6,rem7,rem8,sf,sf2,sf3,sf4]
+    scaler = RobustScaler()
+    input= scaler.fit_transform([input])
+    price = model.predict(input)
+    subRes1 = dict()
+    subRes1["price"] = price[0].round(2)
+    subRes1["latitude"] = latitude
+    subRes1["longitude"] = longitude
+
+    res["1"] = subRes1
+    res["2"] = subRes2
+    print(res)
+    return res, 200
+
 
 @app.route('/land-price-pred')
 def land_result():
