@@ -7,3 +7,9 @@ export type errorProps = {
 export type logoProps = {
     fill?: string;
 };
+
+export type headerProps = {
+    home?: boolean;
+    getStarted?: boolean;
+    dark?: boolean;
+};

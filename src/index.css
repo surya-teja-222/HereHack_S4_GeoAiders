@@ -13,6 +13,10 @@ body,
     margin: none;
 }
 
+canvas{
+    border-radius: 44px;
+}
+
 .dashed_bd {
     @apply border-dotted border-stone-900 border-2;
 }

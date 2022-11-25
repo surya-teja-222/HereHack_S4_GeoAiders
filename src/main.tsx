@@ -5,11 +5,17 @@ import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 
 import App from "./App";
 import "./index.css";
+import Search from "./containers/search";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <App />,
+        errorElement: <FourOFour />,
+    },
+    {
+        path: "/search",
+        element: <Search />,
         errorElement: <FourOFour />,
     },
     {

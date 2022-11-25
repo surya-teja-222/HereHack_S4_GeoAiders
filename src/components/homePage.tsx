@@ -19,7 +19,7 @@ export default function HomePage() {
                         Power Of Real Estate in Your Hands!
                     </h1>
                     <Link
-                        to="/404"
+                        to="/search"
                         className="flex w-fit franchise_btn py-2 px-4 mt-4"
                     >
                         <p className="text-[#7C7C7C] font-semibold">

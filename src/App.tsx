@@ -8,7 +8,7 @@ function App() {
     return (
         <>
             <BetaRibbon />
-            <Header />
+            <Header getStarted />
             <HomePage />
             <footer>
                 <Footer />

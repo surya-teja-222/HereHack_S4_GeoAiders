@@ -1,7 +1,46 @@
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo";
+import { headerProps } from "../types";
 
-export default function Header() {
+export default function Header(props: headerProps) {
+    const getStarted = () => {
+        if (props.getStarted) {
+            return (
+                <Link to="/search" className="flex franchise_btn py-2 px-4">
+                    <p className="text-[#7C7C7C] font-semibold">Get Started</p>
+                    <svg
+                        className="ml-2 my-auto"
+                        width="19"
+                        height="16"
+                        viewBox="0 0 19 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M0 8.16667H16M16 8.16667L8 14.053M16 8.16667L8 2"
+                            stroke="#7C7C7C"
+                            strokeWidth="3"
+                        />
+                    </svg>
+                </Link>
+            );
+        } else {
+            return <></>;
+        }
+    };
+
+    const home = () => {
+        if (props.home) {
+            return (
+                <Link to="/" className="flex  py-2 px-4">
+                    <p className="text-[#7C7C7C] font-semibold">Home</p>
+                </Link>
+            );
+        } else {
+            return <></>;
+        }
+    };
+
     return (
         <div className="h-[10%] flex w-full justify-between">
             <Link to="/" className="p-2 flex ml-[20px]">
@@ -35,23 +74,8 @@ export default function Header() {
                 </div>
             </Link>
             <div className="p-2 mr-[20px] my-auto">
-                <Link to="/404" className="flex franchise_btn py-2 px-4">
-                    <p className="text-[#7C7C7C] font-semibold">Get Started</p>
-                    <svg
-                        className="ml-2 my-auto"
-                        width="19"
-                        height="16"
-                        viewBox="0 0 19 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M0 8.16667H16M16 8.16667L8 14.053M16 8.16667L8 2"
-                            stroke="#7C7C7C"
-                            strokeWidth="3"
-                        />
-                    </svg>
-                </Link>
+                {getStarted()}
+                {home()}
             </div>
         </div>
     );
