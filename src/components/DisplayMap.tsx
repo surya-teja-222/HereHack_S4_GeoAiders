@@ -1,23 +1,30 @@
 // src/DisplayMapClass.js
 import * as React from "react";
-import { HERE_API_KEY } from "../assets/ENV";
+import { HERE_API_KEY } from "./../assets/env";
 import { mapProps } from "../types";
-
 
 type latLongType = {
     lat: number;
     lng: number;
 };
 
-const defaultLat: latLongType = {
-    lat: 25.6139,
-    lng: 80.209,
-};
-
 export default function DisplayMap(props: mapProps) {
     const mapRef = React.useRef(null);
     const [map, setMap] = React.useState(null);
 
+    var defaultLat: latLongType;
+    if (props.type === "land") {
+        defaultLat = {
+            lat: 28.6139,
+            lng: 77.209,
+        };
+    }
+    if (props.type === "house") {
+        defaultLat = {
+            lat: -37.8136,
+            lng: 144.96751,
+        };
+    }
     var parisMarker: { setGeometry: (arg0: any) => void };
     React.useEffect(() => {
         function setInteractive(map: {
@@ -51,7 +58,7 @@ export default function DisplayMap(props: mapProps) {
         const defaultLayers = platform.createDefaultLayers();
         const map = new H.Map(mapRef.current, defaultLayers.vector.normal.map, {
             center: props.lat ? { lat: props.lat, lng: props.lng } : defaultLat,
-            zoom: props.lat ? 10 : 6,
+            zoom: props.lat ? 10 : props.type==="house" ? 11:6,
             pixelRatio: window.devicePixelRatio || 1,
         });
         window.addEventListener("resize", () => map.getViewPort().resize());
@@ -65,7 +72,7 @@ export default function DisplayMap(props: mapProps) {
         parisMarker = new H.map.Marker(
             props.lat ? { lat: props.lat, lng: props.lng } : defaultLat
         );
-        if(props.lat) {
+        if (props.lat) {
             map.addObject(parisMarker);
         }
 

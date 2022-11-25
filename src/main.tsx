@@ -6,6 +6,8 @@ import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 import Search from "./containers/search";
+import HouseResPrice from "./containers/houseResPrice";
+import LandResPrice from "./containers/landResPrice";
 
 const router = createBrowserRouter([
     {
@@ -14,8 +16,23 @@ const router = createBrowserRouter([
         errorElement: <FourOFour />,
     },
     {
-        path: "/search",
-        element: <Search />,
+        path: "/land-price",
+        element: <Search type="land" />,
+        errorElement: <FourOFour />,
+    },
+    {
+        path: "/house-price",
+        element: <Search type="house" />,
+        errorElement: <FourOFour />,
+    },
+    {
+        path: "/house-results",
+        element: <HouseResPrice />,
+        errorElement: <FourOFour />,
+    },
+    {
+        path: "/land-results",
+        element: <LandResPrice />,
         errorElement: <FourOFour />,
     },
     {

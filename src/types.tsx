@@ -18,4 +18,9 @@ export type mapProps = {
     label?: string;
     lat?: number;
     lng?: number;
+    type: "land" | "house";
+};
+
+export type searchProps = {
+    type: "land" | "house";
 };

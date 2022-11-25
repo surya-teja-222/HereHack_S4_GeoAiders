@@ -6,7 +6,7 @@ export default function Header(props: headerProps) {
     const getStarted = () => {
         if (props.getStarted) {
             return (
-                <Link to="/search" className="flex franchise_btn py-2 px-4">
+                <Link to="/land-price" className="flex franchise_btn py-2 px-4">
                     <p className="text-[#7C7C7C] font-semibold">Get Started</p>
                     <svg
                         className="ml-2 my-auto"

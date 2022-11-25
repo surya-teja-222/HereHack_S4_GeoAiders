@@ -1,7 +1,8 @@
 import Header from "../components/header";
 import DisplayMapClass from "../components/DisplayMap";
-import { HERE_API_KEY, MAP_QUEST_API } from "../assets/ENV";
+import { HERE_API_KEY, MAP_QUEST_API } from "./../assets/env";
 import React, { useEffect } from "react";
+import { searchProps } from "../types";
 
 const AUTO_COMPLETE_URL = (input: string) => {
     return `https://autocomplete.geocoder.ls.hereapi.com/6.2/suggest.json?query=${input}&apiKey=${HERE_API_KEY}`;
@@ -21,7 +22,7 @@ type sel = {
     lng: number;
 };
 
-export default function Search() {
+export default function Search(props: searchProps) {
     const [suggestions, setSuggestions] = React.useState<string[]>([]);
 
     const [selected, setSelected] = React.useState<sel>();
@@ -158,6 +159,7 @@ export default function Search() {
                             label={selected?.label}
                             lat={selected?.lat}
                             lng={selected?.lng}
+                            type={props.type}
                         />
                     </div>
                 </div>
