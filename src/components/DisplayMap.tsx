@@ -1,11 +1,24 @@
 // src/DisplayMapClass.js
 import * as React from "react";
-const HERE_API_KEY = import.meta.env.VITE_HERE_API_KEY;
+import { HERE_API_KEY } from "../assets/ENV";
+import { mapProps } from "../types";
 
 
-export default function DisplayMap() {
+type latLongType = {
+    lat: number;
+    lng: number;
+};
+
+const defaultLat: latLongType = {
+    lat: 25.6139,
+    lng: 80.209,
+};
+
+export default function DisplayMap(props: mapProps) {
     const mapRef = React.useRef(null);
     const [map, setMap] = React.useState(null);
+
+    var parisMarker: { setGeometry: (arg0: any) => void };
     React.useEffect(() => {
         function setInteractive(map: {
             getBaseLayer: () => {
@@ -37,8 +50,8 @@ export default function DisplayMap() {
         });
         const defaultLayers = platform.createDefaultLayers();
         const map = new H.Map(mapRef.current, defaultLayers.vector.normal.map, {
-            center: { lat: 25.6139, lng: 80.209 },
-            zoom: 6,
+            center: props.lat ? { lat: props.lat, lng: props.lng } : defaultLat,
+            zoom: props.lat ? 10 : 6,
             pixelRatio: window.devicePixelRatio || 1,
         });
         window.addEventListener("resize", () => map.getViewPort().resize());
@@ -48,8 +61,13 @@ export default function DisplayMap() {
         );
 
         const ui = H.ui.UI.createDefault(map, defaultLayers);
-        
-        var parisMarker = new H.map.Marker({ lat: 48.8567, lng: 2.3508 });
+
+        parisMarker = new H.map.Marker(
+            props.lat ? { lat: props.lat, lng: props.lng } : defaultLat
+        );
+        if(props.lat) {
+            map.addObject(parisMarker);
+        }
 
         function onTap(evt: {
             currentPointer: { viewportX: any; viewportY: any };
@@ -68,8 +86,11 @@ export default function DisplayMap() {
 
         setInteractive(map);
         setMap(map);
-        return () => map.dispose();
-    }, []);
 
-    return <div ref={mapRef} className="h-[500px] !rounded-[44px]" />;
+        return () => {
+            map.dispose();
+        };
+    }, [props.label]);
+
+    return <div ref={mapRef} className="h-[100%] !rounded-[44px]" />;
 }

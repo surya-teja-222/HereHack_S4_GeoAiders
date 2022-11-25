@@ -13,3 +13,9 @@ export type headerProps = {
     getStarted?: boolean;
     dark?: boolean;
 };
+
+export type mapProps = {
+    label?: string;
+    lat?: number;
+    lng?: number;
+};
